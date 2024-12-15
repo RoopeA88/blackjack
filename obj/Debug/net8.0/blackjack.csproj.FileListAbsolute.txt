@@ -1,0 +1,15 @@
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\bin\Debug\net8.0\blackjack.exe
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\bin\Debug\net8.0\blackjack.deps.json
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\bin\Debug\net8.0\blackjack.runtimeconfig.json
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\bin\Debug\net8.0\blackjack.dll
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\bin\Debug\net8.0\blackjack.pdb
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.AssemblyInfoInputs.cache
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.AssemblyInfo.cs
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.csproj.CoreCompileInputs.cache
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.sourcelink.json
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.dll
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\refint\blackjack.dll
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.pdb
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\blackjack.genruntimeconfig.cache
+C:\Users\roope\OneDrive\Työpöytä\ohjelmointiprojektit\blackjack c#\blackjack\obj\Debug\net8.0\ref\blackjack.dll
