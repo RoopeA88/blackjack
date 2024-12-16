@@ -1,9 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 Random random = new Random();
-string [] kortit = new string[]{"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h",
-"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s","11s","12s","13s",
-"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d","11d","12d","13d",
-"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c","11c","12c","13c"};
+string [] kortit = new string[]{"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h","Jh","Qh","Kh",
+"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s","Js","Qs","Ks",
+"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d","J","Qd","Kd",
+"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c","Jc","Qc","Kc"};
 List<string> kortit_listana = kortit.ToList();
 int korttien_maara = 52;
 int tilin_saldo = 1000;
@@ -42,16 +42,63 @@ void blackjack(){
             Console.WriteLine("Hyvää onnea pelaaja!");
             int pelaajan_summa;
             int jakajan_summa;
+            int pelaajan_kortti1_numerona;
+            int pelaajan_kortti2_numerona;
+            int jakajan_avoin_numerona;
+            int jakajan_pimea_numerona;
             string pelaajan_kortti1 = jaa_kortti();
             string pelaajan_kortti2 = jaa_kortti();
             string jakajan_avoin = jaa_kortti();
             string jakajan_pimea = jaa_kortti();
             Console.WriteLine($"Korttisi ovat {pelaajan_kortti1} ja {pelaajan_kortti2}");
             Console.WriteLine($"Jakajan avoin kortti on {jakajan_avoin}");
-            int pelaajan_kortti1_numerona = pelaajan_kortti1[0] - '0';
-            int pelaajan_kortti2_numerona = pelaajan_kortti2[0] - '0';
-            int jakajan_avoin_numerona = jakajan_avoin[0] - '0';
-            int jakajan_pimea_numerona = jakajan_pimea[0] - '0';
+            if(pelaajan_kortti1[0] == 'J'){
+                pelaajan_kortti1_numerona = 11;
+            } else if(pelaajan_kortti1[0] == 'Q'){
+                pelaajan_kortti1_numerona = 12;
+            } else if(pelaajan_kortti1[0] == 'K'){
+                pelaajan_kortti1_numerona = 13;
+            } else if(pelaajan_kortti1[0] == 1 && pelaajan_kortti1[1] == 0){
+                pelaajan_kortti1_numerona = 10;
+            } else{
+                pelaajan_kortti1_numerona = pelaajan_kortti1[0] - '0';
+            }
+             if(pelaajan_kortti2[0] == 'J'){
+                pelaajan_kortti2_numerona = 11;
+            } else if(pelaajan_kortti2[0] == 'Q'){
+                pelaajan_kortti2_numerona = 12;
+            } else if(pelaajan_kortti2[0] == 'K'){
+                pelaajan_kortti2_numerona = 13;
+            } else if(pelaajan_kortti2[0] == 1 && pelaajan_kortti2[1] == 0){
+                pelaajan_kortti2_numerona = 10;
+            } else{
+                 pelaajan_kortti2_numerona = pelaajan_kortti2[0] - '0';
+            }
+            
+            if(jakajan_avoin[0] == 'K'){
+                jakajan_avoin_numerona = 13;
+            } else if(jakajan_avoin[0] == 'Q'){
+                jakajan_avoin_numerona = 12;
+            } else if(jakajan_avoin[0] == 'J'){
+                jakajan_avoin_numerona = 11;
+            } else if(jakajan_avoin[0] == 1 && jakajan_avoin[1] == 1){
+                jakajan_avoin_numerona = 10;
+            } else {
+                jakajan_avoin_numerona = jakajan_avoin[0] - '0';
+            }
+            if(jakajan_pimea[0] == 'K'){
+                jakajan_pimea_numerona = 13;
+            } else if(jakajan_pimea[0] == 'Q'){
+                jakajan_pimea_numerona = 12;
+            } else if(jakajan_pimea[0] == 'J'){
+                jakajan_pimea_numerona = 11;
+            } else if( jakajan_pimea[0] == 1 && jakajan_pimea[1] == 1){
+                jakajan_pimea_numerona = 10;
+            } else{
+                jakajan_pimea_numerona = jakajan_pimea[0] - '0';
+            }
+            
+            
             pelaajan_summa = pelaajan_kortti1_numerona + pelaajan_kortti2_numerona;
             jakajan_summa = jakajan_avoin_numerona + jakajan_pimea_numerona;
             while(kierroskaynnissa){
