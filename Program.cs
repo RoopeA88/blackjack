@@ -8,14 +8,31 @@ List<string> kortit_listana = kortit.ToList();
 int korttien_maara = 52;
 int tilin_saldo = 1000;
 int pelikassa = 0;
+string jaettu_kortti;
+int kortin_arvo;
 
 string jaa_kortti(){
 
     int randomNumero = random.Next(0,korttien_maara);
-    string jaettu_kortti = kortit[randomNumero];
+    jaettu_kortti = kortit[randomNumero];
     kortit_listana.RemoveAt(randomNumero);
     korttien_maara -=1;
+    
     return jaettu_kortti;
+}
+int kortin_arvo_(string kortti){
+    if(kortti[0] == 'K'){
+        kortin_arvo = 13;
+    } else if(kortti[0] == 'Q'){
+        kortin_arvo = 12;
+    } else if(kortti[0] == 'J'){
+        kortin_arvo = 11;
+    } else if(kortti.Length == 3){
+        kortin_arvo = 10;
+    } else{
+        kortin_arvo = kortti[0] -'0';
+    }
+    return kortin_arvo;
 }
 
 void pankkiautomaatti(){
@@ -34,73 +51,36 @@ void pankkiautomaatti(){
 void blackjack(){
     bool kierroskaynnissa = true;
     while(true){
-        Console.WriteLine("Tervetuloa Casinolle! Haluatko pelata blackjackia (b) vai tarvitseeko sinun nostaa rahaa? (r)");
+        Console.WriteLine("Tervetuloa Casinolle! Haluatko pelata blackjackia (b) vai tarvitseeko sinun nostaa rahaa? (r), lopeta (l)");
         string valinta = Console.ReadLine();
+        if (valinta == "l"){
+            break;
+        }
         if (valinta == "r"){
             pankkiautomaatti();
         } else if (valinta == "b"){
             Console.WriteLine("Hyvää onnea pelaaja!");
-            int pelaajan_summa;
-            int jakajan_summa;
-            int pelaajan_kortti1_numerona;
-            int pelaajan_kortti2_numerona;
-            int jakajan_avoin_numerona;
-            int jakajan_pimea_numerona;
+            
+            
+            
             string pelaajan_kortti1 = jaa_kortti();
+            int pelaajan_kortti1_numerona = kortin_arvo_(pelaajan_kortti1);
             string pelaajan_kortti2 = jaa_kortti();
+            int pelaajan_kortti2_numerona = kortin_arvo_(pelaajan_kortti2);
             string jakajan_avoin = jaa_kortti();
+            int jakajan_avoin_numerona = kortin_arvo_(jakajan_avoin);
             string jakajan_pimea = jaa_kortti();
+            int jakajan_pimea_numerona = kortin_arvo_(jakajan_pimea);
+
             Console.WriteLine($"Korttisi ovat {pelaajan_kortti1} ja {pelaajan_kortti2}");
             Console.WriteLine($"Jakajan avoin kortti on {jakajan_avoin}");
-            if(pelaajan_kortti1[0] == 'J'){
-                pelaajan_kortti1_numerona = 11;
-            } else if(pelaajan_kortti1[0] == 'Q'){
-                pelaajan_kortti1_numerona = 12;
-            } else if(pelaajan_kortti1[0] == 'K'){
-                pelaajan_kortti1_numerona = 13;
-            } else if(pelaajan_kortti1[0] == 1 && pelaajan_kortti1[1] == 0){
-                pelaajan_kortti1_numerona = 10;
-            } else{
-                pelaajan_kortti1_numerona = pelaajan_kortti1[0] - '0';
-            }
-             if(pelaajan_kortti2[0] == 'J'){
-                pelaajan_kortti2_numerona = 11;
-            } else if(pelaajan_kortti2[0] == 'Q'){
-                pelaajan_kortti2_numerona = 12;
-            } else if(pelaajan_kortti2[0] == 'K'){
-                pelaajan_kortti2_numerona = 13;
-            } else if(pelaajan_kortti2[0] == 1 && pelaajan_kortti2[1] == 0){
-                pelaajan_kortti2_numerona = 10;
-            } else{
-                 pelaajan_kortti2_numerona = pelaajan_kortti2[0] - '0';
-            }
-            
-            if(jakajan_avoin[0] == 'K'){
-                jakajan_avoin_numerona = 13;
-            } else if(jakajan_avoin[0] == 'Q'){
-                jakajan_avoin_numerona = 12;
-            } else if(jakajan_avoin[0] == 'J'){
-                jakajan_avoin_numerona = 11;
-            } else if(jakajan_avoin[0] == 1 && jakajan_avoin[1] == 1){
-                jakajan_avoin_numerona = 10;
-            } else {
-                jakajan_avoin_numerona = jakajan_avoin[0] - '0';
-            }
-            if(jakajan_pimea[0] == 'K'){
-                jakajan_pimea_numerona = 13;
-            } else if(jakajan_pimea[0] == 'Q'){
-                jakajan_pimea_numerona = 12;
-            } else if(jakajan_pimea[0] == 'J'){
-                jakajan_pimea_numerona = 11;
-            } else if( jakajan_pimea[0] == 1 && jakajan_pimea[1] == 1){
-                jakajan_pimea_numerona = 10;
-            } else{
-                jakajan_pimea_numerona = jakajan_pimea[0] - '0';
-            }
+            int pelaajan_summa = pelaajan_kortti1_numerona + pelaajan_kortti2_numerona;
+            int jakajan_summa = jakajan_avoin_numerona + jakajan_pimea_numerona;
+            kierroskaynnissa = true;
+           
             
             
-            pelaajan_summa = pelaajan_kortti1_numerona + pelaajan_kortti2_numerona;
-            jakajan_summa = jakajan_avoin_numerona + jakajan_pimea_numerona;
+            
             while(kierroskaynnissa){
                 Console.WriteLine($"Sinulla on {pelaajan_summa}, haluatko ottaa kortin (1) jäädä tähän (2)");
                 string paatos = Console.ReadLine();
@@ -108,17 +88,17 @@ void blackjack(){
                     
                     string lisakortti = jaa_kortti();
                     Console.WriteLine($"Jakaja jakaa pelaajalle {lisakortti}");
-                    int lisakortti_numerona = lisakortti[0] - '0';
+                    int lisakortti_numerona = kortin_arvo_(lisakortti);
                     pelaajan_summa += lisakortti_numerona;
                     if(pelaajan_summa >21){
-                        Console.WriteLine("Yli! hävisit.");
+                        Console.WriteLine($"{pelaajan_summa}.Yli! hävisit.");
                         break;
                     } 
 
                     
             } else if(paatos == "2"){
                 Console.WriteLine($"Jäät {pelaajan_summa}");
-                Console.WriteLine($"Jakajalla on {jakajan_summa}");
+                Console.WriteLine($"Jakaja kääntää ympäri {jakajan_pimea}. Jakajalla on {jakajan_summa}");
                 if(pelaajan_summa < jakajan_summa){
                     Console.WriteLine("Hävisit!");
                     kierroskaynnissa = false;
@@ -126,10 +106,11 @@ void blackjack(){
                     while(jakajan_summa < pelaajan_summa){
                         string jakajan_lisakortti = jaa_kortti();
                         
-                        Console.WriteLine($"Jakaja jakoi{jakajan_lisakortti}");
-                        int jakajan_lisakortti_numerona = jakajan_lisakortti[0] - '0';
+                        Console.WriteLine($"Jakaja jakoi {jakajan_lisakortti}");
+                        int jakajan_lisakortti_numerona = kortin_arvo_(jakajan_lisakortti);
                         jakajan_summa += jakajan_lisakortti_numerona;
                         if(jakajan_summa > pelaajan_summa && jakajan_summa <21){
+                            Console.WriteLine($"Jakaja jakaa itselleen {jakajan_lisakortti}");
                             Console.WriteLine($"Hävisit! jakajalla on {jakajan_summa}");
                             kierroskaynnissa = false;
                         } else if(jakajan_summa > pelaajan_summa && jakajan_summa >21){
@@ -147,5 +128,6 @@ void blackjack(){
         }
     }
 }
+
 blackjack();
 //jou
