@@ -7,14 +7,14 @@ string [] kortit = new string[]{"Ah","2h","3h","4h","5h","6h","7h","8h","9h","10
 List<string> kortit_listana = kortit.ToList();
 int korttien_maara = 52;
 int tilin_saldo = 1000;
-int pelikassa = 0;
+double pelikassa = 0;
 string jaettu_kortti;
 int kortin_arvo;
 
 string jaa_kortti(){
 
     int randomNumero = random.Next(0,korttien_maara);
-    jaettu_kortti = kortit[randomNumero];
+    jaettu_kortti = kortit_listana[randomNumero];
     kortit_listana.RemoveAt(randomNumero);
     korttien_maara -=1;
     
@@ -36,7 +36,13 @@ int kortin_arvo_(string kortti){
     }
     return kortin_arvo;
 }
-
+bool panostus(int panos){
+    if(panos % 10 == 0){
+        return true;
+    } else{
+        return false;
+    }
+}
 void pankkiautomaatti(){
     Console.WriteLine($"Kuinka paljon nostetaan? tilin saldo on {tilin_saldo} euroa.");
     string nostosumma = Console.ReadLine();
@@ -61,7 +67,14 @@ void blackjack(){
         if (valinta == "r"){
             pankkiautomaatti();
         } else if (valinta == "b"){
-            Console.WriteLine("Hyvää onnea pelaaja!");
+            Console.WriteLine($"Aseta panos, pelikassasi on {pelikassa} euroa.");
+            string panos = Console.ReadLine();
+            int panos_lukuna = int.Parse(panos);
+            if(panostus(panos_lukuna) == false){
+                Console.WriteLine("Panos ei kelpaa. pitää olla kymmenlukujen välein (10, 20, 30...100...)");
+                continue;
+            }
+            Console.WriteLine($"Panos on {panos_lukuna} euroa. Hyvää onnea pelaaja!");
             
             
             
@@ -82,7 +95,8 @@ void blackjack(){
                 onko_assa = 1;
             }
             if(pelaajan_summa == 21){
-                Console.WriteLine("Blackjack! Onneksi olkoon, voitit.");
+                Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {1.5*panos_lukuna} euroa.");
+                pelikassa = pelikassa + (1.5*panos_lukuna);
                 continue;
             }
             Console.WriteLine($"Jakajan avoin kortti on {jakajan_avoin}");
@@ -138,7 +152,7 @@ void blackjack(){
                             continue;
                             
                         }
-                        else if(jakajan_summa > pelaajan_summa && jakajan_summa <21){
+                        else if(jakajan_summa > pelaajan_summa && jakajan_summa <=21){
                             
                             Console.WriteLine($"Hävisit! jakajalla on {jakajan_summa}");
                             kierroskaynnissa = false;
