@@ -1,13 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
+namespace blackjack_peli{
+    class Program{
+
+    
+
 Random random = new Random();
-string [] kortit = new string[]{"Ah","2h","3h","4h","5h","6h","7h","8h","9h","10h","Jh","Qh","Kh",
+static string [] kortit = new string[]{"Ah","2h","3h","4h","5h","6h","7h","8h","9h","10h","Jh","Qh","Kh",
 "As","2s","3s","4s","5s","6s","7s","8s","9s","10s","Js","Qs","Ks",
 "Ad","2d","3d","4d","5d","6d","7d","8d","9d","10d","Jd","Qd","Kd",
 "Ac","2c","3c","4c","5c","6c","7c","8c","9c","10c","Jc","Qc","Kc"};
 List<string> kortit_listana = kortit.ToList();
 int korttien_maara = 52;
 int tilin_saldo = 1000;
-double pelikassa = 0;
+public static double pelikassa = 0;
 string jaettu_kortti;
 int kortin_arvo;
 
@@ -38,7 +43,7 @@ int kortin_arvo_(string kortti){
 }
 bool panostus(int panos){
     if(panos % 10 == 0 && pelikassa >= panos){
-        pelikassa-= panos;
+        
         return true;
     } else{
         return false;
@@ -77,7 +82,7 @@ void blackjack(){
             if(panostus(panos_lukuna) == false){
                 Console.WriteLine("Panos ei kelpaa. pitää olla kymmenlukujen välein (10, 20, 30...100...) tai sinulla ei ole tarpeeksi rahaa pelikassassa.");
                 continue;
-            }
+            } else{
             Console.WriteLine($"Panos on {panos_lukuna} euroa. Hyvää onnea pelaaja!");
             
             
@@ -99,7 +104,7 @@ void blackjack(){
                 onko_assa = 1;
             }
             if(pelaajan_summa == 21){
-                Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {1.5*panos_lukuna} euroa.");
+                Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {3*panos_lukuna} euroa.");
                 pelikassa = pelikassa + (3*panos_lukuna);
                 Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                 continue;
@@ -194,11 +199,24 @@ void blackjack(){
                 continue;
             }
             }
+            }
         } else{
             continue;
         }
     }
 }
 
-blackjack();
+
+    
+
+
+
+    static void Main(){
+        Program ohjelma = new Program();
+        ohjelma.blackjack();
+    }
+}
+}
+
+
 //jou
