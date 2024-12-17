@@ -37,12 +37,16 @@ int kortin_arvo_(string kortti){
     return kortin_arvo;
 }
 bool panostus(int panos){
-    if(panos % 10 == 0){
+    if(panos % 10 == 0 && pelikassa >= panos){
+        pelikassa-= panos;
         return true;
     } else{
         return false;
     }
 }
+
+
+
 void pankkiautomaatti(){
     Console.WriteLine($"Kuinka paljon nostetaan? tilin saldo on {tilin_saldo} euroa.");
     string nostosumma = Console.ReadLine();
@@ -71,7 +75,7 @@ void blackjack(){
             string panos = Console.ReadLine();
             int panos_lukuna = int.Parse(panos);
             if(panostus(panos_lukuna) == false){
-                Console.WriteLine("Panos ei kelpaa. pitää olla kymmenlukujen välein (10, 20, 30...100...)");
+                Console.WriteLine("Panos ei kelpaa. pitää olla kymmenlukujen välein (10, 20, 30...100...) tai sinulla ei ole tarpeeksi rahaa pelikassassa.");
                 continue;
             }
             Console.WriteLine($"Panos on {panos_lukuna} euroa. Hyvää onnea pelaaja!");
@@ -96,7 +100,8 @@ void blackjack(){
             }
             if(pelaajan_summa == 21){
                 Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {1.5*panos_lukuna} euroa.");
-                pelikassa = pelikassa + (1.5*panos_lukuna);
+                pelikassa = pelikassa + (3*panos_lukuna);
+                Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                 continue;
             }
             Console.WriteLine($"Jakajan avoin kortti on {jakajan_avoin}");
@@ -128,6 +133,8 @@ void blackjack(){
                     }
                     if(pelaajan_summa >21){
                         Console.WriteLine($"{pelaajan_summa}.Yli! hävisit.");
+                        pelikassa-= panos_lukuna;
+                        Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                         kierroskaynnissa = false;
                     } 
 
@@ -137,9 +144,13 @@ void blackjack(){
                 Console.WriteLine($"Jakaja kääntää ympäri {jakajan_pimea}. Jakajalla on {jakajan_summa}");
                 if(pelaajan_summa < jakajan_summa){
                     Console.WriteLine("Hävisit!");
+                    pelikassa -= panos_lukuna;
+                    Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                     kierroskaynnissa = false;
                 } else if(pelaajan_summa == jakajan_summa && jakajan_summa >16){
                     Console.WriteLine("Tasapeli! panos palautettu.");
+                    pelikassa+= panos_lukuna;
+                    Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                 } else{
                     while(jakajan_summa < pelaajan_summa || jakajan_summa == pelaajan_summa){
                         string jakajan_lisakortti = jaa_kortti();
@@ -155,12 +166,18 @@ void blackjack(){
                         else if(jakajan_summa > pelaajan_summa && jakajan_summa <=21){
                             
                             Console.WriteLine($"Hävisit! jakajalla on {jakajan_summa}");
+                            pelikassa-= panos_lukuna;
+                            Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                             kierroskaynnissa = false;
                         } else if(jakajan_summa > pelaajan_summa && jakajan_summa >21){
                             Console.WriteLine($"Voitit! jakajalla {jakajan_summa} Onneksi olkoon!");
+                            pelikassa+= (2*panos_lukuna);
+                            Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                             kierroskaynnissa = false;
                         } else if(jakajan_summa < pelaajan_summa && jakajan_summa > 16){
                             Console.WriteLine($"Jakaja jää {jakajan_summa}. Voitit! onneksi olkoon.");
+                            pelikassa+= (2*panos_lukuna);
+                            Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                             kierroskaynnissa = false;
                         } else if(jakajan_summa < pelaajan_summa && jakajan_summa <17){
                             continue;
@@ -168,6 +185,8 @@ void blackjack(){
                             continue;
                         } else if(jakajan_summa == pelaajan_summa && jakajan_summa >16){
                             Console.WriteLine("Tasapeli! Panos palautettu");
+                            pelikassa+= panos_lukuna;
+                            Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                         }
                     }
                 }
