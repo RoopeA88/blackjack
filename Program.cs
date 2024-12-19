@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Diagnostics.Contracts;
+
 namespace blackjack_peli{
     class Program{
 
@@ -16,6 +18,7 @@ public static double pelikassa = 0;
 string jaettu_kortti;
 int kortin_arvo;
 int laskuri;
+int onko_assa_apuri;
 void sekoita(){
     kortit_listana = kortit.ToList();
     int pakan_koko = kortit_listana.Count;
@@ -31,15 +34,10 @@ string jaa_kortti(){
     return jaettu_kortti;
 }
 int kortin_arvo_(string kortti){
-    if(kortti[0] == 'K'){
+    if(kortti[0] == 'K' || kortti[0] == 'Q' || kortti[0] == 'J' || kortti.Length == 3){
         kortin_arvo = 10;
-    } else if(kortti[0] == 'Q'){
-        kortin_arvo = 10;
-    } else if(kortti[0] == 'J'){
-        kortin_arvo = 10;
-    } else if(kortti.Length == 3){
-        kortin_arvo = 10;
-    } else if(kortti[0] == 'A'){
+    } 
+     else if(kortti[0] == 'A'){
         kortin_arvo = 11;
     } else{
         kortin_arvo = kortti[0] -'0';
@@ -47,7 +45,7 @@ int kortin_arvo_(string kortti){
     return kortin_arvo;
 }
 bool panostus(int panos){
-    if(panos % 10 == 0 && pelikassa >= panos){
+    if(panos % 10 == 0 && pelikassa >= panos && panos >0){
         
         return true;
     } else{
@@ -71,9 +69,25 @@ void pankkiautomaatti(){
 }
 
 void blackjack(){
+    Pelaaja pelaaja = null;
     bool kierroskaynnissa = true;
     while(true){
-        Console.WriteLine("Tervetuloa Casinolle! Haluatko pelata blackjackia (b) vai tarvitseeko sinun nostaa rahaa? (r), lopeta (l)");
+        Console.WriteLine("Valitse hahmo: Anna (a), Jarkko (j) tai Pentti (p)");
+        string hahmo = Console.ReadLine();
+        if(hahmo == "a"){
+            pelaaja = new Anna("Anna");
+            Console.WriteLine($"Tervetuloa Casinolle, {pelaaja.Nimi}! Hahmollasi on {pelaaja.Pelimerkit} pelimerkkiä. Anna komento 'b' pelataksesi tai komento 'l' lopettaaksesi pelin.");
+        } else if(hahmo == "j"){
+            pelaaja = new Jarkko("Jaakko");
+            Console.WriteLine($"Tervetuloa Casinolle, {pelaaja.Nimi}! Hahmollasi on {pelaaja.Pelimerkit} pelimerkkiä. Anna komento 'b' pelataksesi tai komento 'l' lopettaaksesi pelin.");
+        } else if (hahmo == "p"){
+            pelaaja = new Pentti("Pentti");
+            Console.WriteLine($"Tervetuloa Casinolle, {pelaaja.Nimi}! Hahmollasi on {pelaaja.Pelimerkit} pelimerkkiä. Anna komento 'b' pelataksesi tai komento 'l' lopettaaksesi pelin.");
+        } else{
+            Console.WriteLine("Sinun on valittava hahmo pelataksesi!");
+            continue;
+        }
+        
         
         string valinta = Console.ReadLine();
         if (valinta == "l"){
@@ -82,7 +96,7 @@ void blackjack(){
         if (valinta == "r"){
             pankkiautomaatti();
         } else if (valinta == "b"){
-            Console.WriteLine($"Aseta panos, pelikassasi on {pelikassa} euroa.");
+            Console.WriteLine($"Aseta panos, pelikassasi on {pelaaja.Pelimerkit} euroa.");
             string panos = Console.ReadLine();
             int panos_lukuna = int.Parse(panos);
             if(panostus(panos_lukuna) == false){
@@ -91,10 +105,11 @@ void blackjack(){
             } else{
                 if(laskuri == 5){
                     sekoita();
+                    laskuri = 0;
                 }
                 laskuri+=1;
             Console.WriteLine($"Panos on {panos_lukuna} euroa. Hyvää onnea pelaaja!");
-            Console.WriteLine($"Pakassa on {kortit_listana.Count}");
+            
             
             
             
@@ -116,8 +131,8 @@ void blackjack(){
                 onko_assa = 1;
             }
             if(pelaajan_summa == 21){
-                Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {3*panos_lukuna} euroa.");
-                pelikassa = pelikassa + (1.5*panos_lukuna);
+                Console.WriteLine($"Blackjack! Onneksi olkoon, voitit {2*panos_lukuna} euroa.");
+                pelikassa = pelikassa + (2*panos_lukuna);
                 Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                 continue;
             }
@@ -128,7 +143,7 @@ void blackjack(){
             
             int jakajan_summa = jakajan_avoin_numerona + jakajan_pimea_numerona;
             kierroskaynnissa = true;
-           
+            onko_assa_apuri = 0;
             
             
             
@@ -142,8 +157,9 @@ void blackjack(){
                     int lisakortti_numerona = kortin_arvo_(lisakortti);
                     
                     pelaajan_summa += lisakortti_numerona;
-                    if(onko_assa == 1 && pelaajan_summa > 21){
+                    if(onko_assa == 1 && pelaajan_summa > 21 && onko_assa_apuri == 0){
                         pelaajan_summa-= 10;
+                        onko_assa_apuri = 1;
                     }
                     if(lisakortti_numerona == 11 && pelaajan_summa > 21){
                         pelaajan_summa -= 10;
@@ -169,7 +185,7 @@ void blackjack(){
                     
                     Console.WriteLine($"Pelikassassa on {pelikassa} euroa.");
                 } else{
-                    while(jakajan_summa < pelaajan_summa || jakajan_summa == pelaajan_summa){
+                    while(jakajan_summa < 17){
                         string jakajan_lisakortti = jaa_kortti();
                         
                         Console.WriteLine($"Jakaja jakoi {jakajan_lisakortti}");
