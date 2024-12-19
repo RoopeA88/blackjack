@@ -4,7 +4,8 @@ namespace blackjack_peli{
 
 
 public class Anna{
-    public string Nimi {get; private set;}
+    public string Nimi {get; private set;} = "Anna";
+    public double Pelimerkit{get; set;} = 2500;
     public Anna(){
     
     }
