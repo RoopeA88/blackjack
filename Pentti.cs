@@ -3,19 +3,19 @@ using System.Security.Cryptography.X509Certificates;
 namespace blackjack_peli{
 
 
-public class Pentti{
-    public string Nimi {get; private set;}
-    public double Pelimerkit{get; set;} = 2500;
-    public Pentti(string nimi_){
-    Nimi = nimi_;
+public class Pentti : Pelaaja{
+    
+    public override double Pelimerkit{get; set;} = 2000;
+    public Pentti(string nimi) : base(nimi){
+    
     }
-    public void erikoiskyky(int laskuri){
-        if(laskuri == 10){
-            Console.WriteLine("Erikoiskyky aktivoitu");
-            Console.WriteLine("Anna hymyilee leikillisesti jakajalle, katsoo syvälle silmiin ja samalla varastaa pelimerkkejä");
-            Console.WriteLine("Pelikassasi suurenee 100 pelimerkillä");
-            Program.pelikassa += 100;
-        }
+    public static int erikoiskyky(){
+        
+            Program ohjelma1 = new Program();
+            string kortti = ohjelma1.jaa_kortti();
+            int kortti_numerona = ohjelma1.kortin_arvo_(kortti);
+            return kortti_numerona;
+        
     }
 
 }

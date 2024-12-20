@@ -19,12 +19,13 @@ string jaettu_kortti;
 int kortin_arvo;
 int laskuri;
 int onko_assa_apuri;
+int erikoiskykylaskuri;
 void sekoita(){
     kortit_listana = kortit.ToList();
     int pakan_koko = kortit_listana.Count;
     Console.WriteLine($"kortteja pakassa: {pakan_koko}");
 }
-string jaa_kortti(){
+public string jaa_kortti(){
 
     int randomNumero = random.Next(0,korttien_maara);
     jaettu_kortti = kortit_listana[randomNumero];
@@ -33,7 +34,7 @@ string jaa_kortti(){
     
     return jaettu_kortti;
 }
-int kortin_arvo_(string kortti){
+public int kortin_arvo_(string kortti){
     if(kortti[0] == 'K' || kortti[0] == 'Q' || kortti[0] == 'J' || kortti.Length == 3){
         kortin_arvo = 10;
     } 
@@ -103,6 +104,7 @@ void blackjack(){
                 Console.WriteLine("Panos ei kelpaa. pitää olla kymmenlukujen välein (10, 20, 30...100...) tai sinulla ei ole tarpeeksi rahaa pelikassassa.");
                 continue;
             } else{
+                erikoiskykylaskuri+=1;
                 if(laskuri == 5){
                     sekoita();
                     laskuri = 0;
@@ -163,6 +165,17 @@ void blackjack(){
                     }
                     if(lisakortti_numerona == 11 && pelaajan_summa > 21){
                         pelaajan_summa -= 10;
+                    }
+                    if(pelaaja.Nimi == "Pentti" && erikoiskykylaskuri == 10 && pelaajan_summa >21){
+                        Console.WriteLine($"Menit yli, korttien arvo on {pelaajan_summa} ");
+                        int erikoiskyvyn_uusi_kortti = Pentti.erikoiskyky();
+                        Console.WriteLine($"Superkyky aktivoitu! Sinulle jaettiin uusi kortti, jonka arvo on {erikoiskyvyn_uusi_kortti} ");
+                        pelaajan_summa-=lisakortti_numerona;
+                        pelaajan_summa+= erikoiskyvyn_uusi_kortti;
+                        erikoiskykylaskuri = 0;
+                        if(pelaajan_summa >21){
+                            Console.WriteLine($"Summa uuden kortin jälkeen {pelaajan_summa}, ei voi mitään, hävisit superkyvystä huolimatta.");
+                        }
                     }
                     if(pelaajan_summa >21){
                         Console.WriteLine($"{pelaajan_summa}.Yli! hävisit.");
