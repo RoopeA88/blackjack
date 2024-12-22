@@ -9,13 +9,12 @@ public class Jarkko : Pelaaja{
     public Jarkko(string nimi) : base(nimi){
     
     }
-    public void erikoiskyky(int laskuri){
-        if(laskuri == 10){
-            Console.WriteLine("Erikoiskyky aktivoitu");
-            Console.WriteLine("Anna hymyilee leikillisesti jakajalle, katsoo syvälle silmiin ja samalla varastaa pelimerkkejä");
-            Console.WriteLine("Pelikassasi suurenee 100 pelimerkillä");
-            Program.pelikassa += 100;
-        }
+    public static int erikoiskyky(){
+        string jarkon_lisakortti = Program.jaa_kortti();
+        int jarkon_lisakortti_numerona = Program.kortin_arvo_(jarkon_lisakortti);
+        Console.WriteLine($"Superkyky aktivoitu! Sinulle jaettiin uusi kortti {jarkon_lisakortti}, jonka arvo on {jarkon_lisakortti_numerona} ");
+        return jarkon_lisakortti_numerona;
+       
     }
 
 }
